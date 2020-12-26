@@ -3,15 +3,17 @@ package com.purchase.purchasegoods;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableFeignClients
 public class PurchaseGoodsApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(PurchaseGoodsApplication.class, args);
     }
 
+//    @Bean
+//    public Snowflake snowflake() {
+//        return IdUtil.getSnowflake(1, 1);
+//    }
 }

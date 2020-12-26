@@ -23,7 +23,7 @@ public class CodeGenerator {
     /**
      * 模块名
      */
-    private static final String moduleName = "purchase-goods";
+    private static final String moduleName = "purchase-user";
 
     /**
      * 作者
@@ -34,7 +34,7 @@ public class CodeGenerator {
      * 数据库相关
      */
     private static final String dbDriverName = "com.mysql.cj.jdbc.Driver";
-    private static final String dbName = "changgou_goods";
+    private static final String dbName = "changgou_user";
     private static final String dbTablePrefix = "tb";
     private static final String dbHost = "127.0.0.1";
     private static final String dbPort = "3308";
@@ -44,7 +44,7 @@ public class CodeGenerator {
     /**
      * 包名
      */
-    private static final String packageName = "com.purchase.purchasegoods";
+    private static final String packageName = "com.purchase.purchaseuser";
 
     private CodeGenerator() {
     }

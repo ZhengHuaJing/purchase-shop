@@ -1,14 +1,17 @@
 package com.purchase.purchasegoods.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author ZhengHuaJing
@@ -47,6 +50,10 @@ public class Spu implements Serializable {
      */
     private Integer brandId;
 
+    @TableField(exist = false)
+    @ApiModelProperty(hidden = true)
+    private Brand brand;
+
     /**
      * 一级分类
      */
@@ -66,6 +73,10 @@ public class Spu implements Serializable {
      * 模板ID
      */
     private Integer templateId;
+
+    @TableField(exist = false)
+    @ApiModelProperty(hidden = true)
+    private Template template;
 
     /**
      * 运费模板id

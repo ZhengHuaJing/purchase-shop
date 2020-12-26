@@ -1,11 +1,11 @@
 package com.purchase.purchasegoods.controller;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.purchase.purchasecommon.lang.Response;
+import com.purchase.purchasecommon.pojo.PageResult;
+import com.purchase.purchasecommon.pojo.Result;
 import com.purchase.purchasegoods.entity.Brand;
 import com.purchase.purchasegoods.service.BrandService;
 import io.swagger.annotations.Api;
@@ -17,8 +17,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 /**
  * <p>
@@ -37,64 +36,78 @@ public class BrandController {
     private BrandService brandService;
 
     @ApiOperation("添加品牌")
-//    @PreAuthorize("hasAuthority('BrandController:addBrand')")
-    @PostMapping("")
-    public Response addBrand(@Valid @RequestBody Brand brand) {
-        return Response.assess(brandService.save(brand));
+    @PreAuthorize("hasAuthority('BrandController:addBrand')")
+    @PostMapping()
+    public Result addBrand(@Valid @RequestBody Brand brand) {
+        return Result.assess(brandService.save(brand));
     }
 
     @ApiOperation("删除品牌")
     @ApiImplicitParam(name = "id", value = "品牌ID", dataType = "Integer", paramType = "path", required = true)
     @PreAuthorize("hasAuthority('BrandController:deleteBrand')")
     @DeleteMapping("/{id}")
-    public Response deleteBrand(@PathVariable(name = "id") Integer id) {
-        return Response.assess(brandService.removeById(id));
+    public Result deleteBrand(@PathVariable(name = "id") Integer id) {
+        return Result.assess(brandService.removeById(id));
     }
 
     @ApiOperation("更新品牌")
     @ApiImplicitParam(name = "id", value = "品牌ID", dataType = "Integer", paramType = "path", required = true)
     @PreAuthorize("hasAuthority('BrandController:updateBrand')")
     @PutMapping("/{id}")
-    public Response updateBrand(@PathVariable(name = "id") Integer id, @Valid @RequestBody Brand brand) {
+    public Result updateBrand(@PathVariable(name = "id") Integer id, @Valid @RequestBody Brand brand) {
         brand.setId(id);
-        return Response.assess(brandService.updateById(brand));
+        return Result.assess(brandService.updateById(brand));
     }
 
-    @ApiOperation("详情品牌")
+    @ApiOperation("品牌详情")
     @ApiImplicitParam(name = "id", value = "品牌ID", dataType = "Integer", paramType = "path", required = true)
     @PreAuthorize("hasAuthority('BrandController:getBrand')")
     @GetMapping("/{id}")
-    public Response getBrand(@PathVariable(name = "id") Integer id) {
-        return Response.success(brandService.getById(id));
+    public Result getBrand(@PathVariable(name = "id") Integer id) {
+        return Result.success(brandService.getById(id));
     }
 
-    @ApiOperation("列表品牌")
+    @ApiOperation("品牌全部数据")
+    @PreAuthorize("hasAuthority('BrandController:listBrand')")
+    @GetMapping()
+    public Result listBrand() {
+        List<Brand> list = brandService.list();
+        PageResult<Brand> brandPageResult = new PageResult<>(list, list.size());
+        return Result.success(brandPageResult);
+    }
+
+    @ApiOperation("品牌分页和条件搜索")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", value = "页码", dataType = "Integer", paramType = "query", required = false),
-            @ApiImplicitParam(name = "size", value = "每页显示数", dataType = "Integer", paramType = "query", required = false),
-            @ApiImplicitParam(name = "search", value = "搜索词", dataType = "String", paramType = "query", required = false),
-            @ApiImplicitParam(name = "idOrder", value = "按照ID升序或降序", dataType = "Boolean", paramType = "query", required = false),
+            @ApiImplicitParam(name = "page", value = "页码", dataType = "Integer", paramType = "path", required = true),
+            @ApiImplicitParam(name = "size", value = "数量", dataType = "Integer", paramType = "path", required = true)
     })
-//    @PreAuthorize("hasAuthority('BrandController:listBrand')")
-    @GetMapping("")
-    public Response listBrand(@RequestParam(name = "page", defaultValue = "1") Integer page,
-                              @RequestParam(name = "size", defaultValue = "10") Integer size,
-                              String search,
-                              Boolean idOrder) throws Exception {
-        // 搜索查询
-        LambdaQueryWrapper<Brand> qw = new QueryWrapper<Brand>().lambda()
-                .like(search != null && !search.equals(""), Brand::getId, search)
-                .orderBy(idOrder != null, idOrder != null && idOrder, Brand::getId);
+    @PreAuthorize("hasAuthority('BrandController:listBrandQueryPage')")
+    @PostMapping("/search/{page}/{size}")
+    public Result listBrandQueryPage(@RequestBody @Valid Brand brand, @PathVariable Integer page, @PathVariable Integer size) {
+        IPage<Brand> iPage = brandService.page(new Page<>(page, size), new QueryWrapper<>(brand));
+        PageResult<Brand> brandPageResult = new PageResult<>(iPage.getRecords(), (int) iPage.getTotal());
+        return Result.success(brandPageResult);
+    }
 
-        Page<Brand> p = new Page<>(page, size);
-        IPage<Brand> iPage = brandService.page(p, qw);
+    @ApiOperation("品牌分页搜索")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page", value = "页码", dataType = "Integer", paramType = "path", required = true),
+            @ApiImplicitParam(name = "size", value = "数量", dataType = "Integer", paramType = "path", required = true)
+    })
+    @PreAuthorize("hasAuthority('BrandController:listBrandPage')")
+    @GetMapping("/search/{page}/{size}")
+    public Result listBrandPage(@PathVariable Integer page, @PathVariable Integer size) {
+        IPage<Brand> iPage = brandService.page(new Page<>(page, size), new QueryWrapper<>());
+        PageResult<Brand> brandPageResult = new PageResult<>(iPage.getRecords(), (int) iPage.getTotal());
+        return Result.success(brandPageResult);
+    }
 
-        Map<String, Object> map = new HashMap<>();
-        map.put("items", iPage.getRecords());
-        map.put("total", iPage.getTotal());
-
-//        return Response.success(map);
-
-        throw new Exception("sdf");
+    @ApiOperation("品牌条件搜索")
+    @PreAuthorize("hasAuthority('BrandController:ListBrandQuery')")
+    @PostMapping("/search")
+    public Result ListBrandQuery(@RequestBody @Valid Brand brand) {
+        List<Brand> list = brandService.list(new QueryWrapper<>(brand));
+        PageResult<Brand> brandPageResult = new PageResult<>(list, list.size());
+        return Result.success(brandPageResult);
     }
 }

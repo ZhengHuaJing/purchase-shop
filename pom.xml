@@ -10,8 +10,9 @@
 
     <modules>
         <module>purchase-common</module>
-        <module>purchase-goods</module>
         <module>purchase-gateway</module>
+        <module>purchase-service-api</module>
+        <module>purchase-service</module>
     </modules>
 
     <properties>

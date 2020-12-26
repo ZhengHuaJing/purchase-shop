@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.purchase.purchasecommon.lang.Response;
+import com.purchase.purchasecommon.pojo.Result;
 import com.purchase.purchasefile.entity.File;
 import com.purchase.purchasefile.service.FileService;
 import io.swagger.annotations.Api;
@@ -40,48 +40,48 @@ public class FileController {
     @ApiOperation("添加文件")
 //    @PreAuthorize("hasAuthority('FileController:addFile')")
     @PostMapping("")
-    public Response addFile(@RequestParam("file") MultipartFile file) {
+    public Result addFile(@RequestParam("file") MultipartFile file) {
         if (file.isEmpty()) {
-            return Response.fail("请选择上传文件");
+            return Result.fail("请选择上传文件");
         }
 
         File fsFile = fileService.saveFile(file);
         if (fsFile.getPath().isEmpty()) {
-            return Response.fail("保存文件失败");
+            return Result.fail("保存文件失败");
         }
 
         fsFile.setSize(file.getSize());
 
         if (!fileService.save(fsFile)) {
-            return Response.fail("文件信息写入数据库失败");
+            return Result.fail("文件信息写入数据库失败");
         }
 
-        return Response.success(fsFile.getPath());
+        return Result.success(fsFile.getPath());
     }
 
     @ApiOperation("删除文件")
     @ApiImplicitParam(name = "id", value = "文件ID", dataType = "Integer", paramType = "path", required = true)
     @PreAuthorize("hasAuthority('FileController:deleteFile')")
     @DeleteMapping("/{id}")
-    public Response deleteFile(@PathVariable(name = "id") Integer id) {
-        return Response.assess(fileService.removeById(id));
+    public Result deleteFile(@PathVariable(name = "id") Integer id) {
+        return Result.assess(fileService.removeById(id));
     }
 
     @ApiOperation("更新文件")
     @ApiImplicitParam(name = "id", value = "文件ID", dataType = "Integer", paramType = "path", required = true)
     @PreAuthorize("hasAuthority('FileController:updateFile')")
     @PutMapping("/{id}")
-    public Response updateFile(@PathVariable(name = "id") Integer id, @Valid @RequestBody File file) {
+    public Result updateFile(@PathVariable(name = "id") Integer id, @Valid @RequestBody File file) {
         file.setId(id);
-        return Response.assess(fileService.updateById(file));
+        return Result.assess(fileService.updateById(file));
     }
 
     @ApiOperation("详情文件")
     @ApiImplicitParam(name = "id", value = "文件ID", dataType = "Integer", paramType = "path", required = true)
     @PreAuthorize("hasAuthority('FileController:getFile')")
     @GetMapping("/{id}")
-    public Response getFile(@PathVariable(name = "id") Integer id) {
-        return Response.success(fileService.getById(id));
+    public Result getFile(@PathVariable(name = "id") Integer id) {
+        return Result.success(fileService.getById(id));
     }
 
     @ApiOperation("列表文件")
@@ -93,10 +93,10 @@ public class FileController {
     })
     @PreAuthorize("hasAuthority('FileController:listFile')")
     @GetMapping("")
-    public Response listFile(@RequestParam(name = "page", defaultValue = "1") Integer page,
-                             @RequestParam(name = "size", defaultValue = "10") Integer size,
-                             String search,
-                             Boolean idOrder) {
+    public Result listFile(@RequestParam(name = "page", defaultValue = "1") Integer page,
+                           @RequestParam(name = "size", defaultValue = "10") Integer size,
+                           String search,
+                           Boolean idOrder) {
         // 搜索查询
         LambdaQueryWrapper<File> qw = new QueryWrapper<File>().lambda()
                 .like(search != null && !search.equals(""), File::getId, search)
@@ -109,7 +109,7 @@ public class FileController {
         map.put("items", iPage.getRecords());
         map.put("total", iPage.getTotal());
 
-        return Response.success(map);
+        return Result.success(map);
     }
 
 }
