@@ -1,0 +1,12 @@
+spring:
+    application:
+        name: purchase-service-user
+
+    cloud:
+        nacos:
+            config:
+                server-addr: localhost:8848
+                file-extension: yml
+                namespace: 70b2c2b4-31fb-4c15-a289-a49218b001b8
+
+

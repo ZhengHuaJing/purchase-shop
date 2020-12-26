@@ -7,6 +7,6 @@ spring:
             config:
                 server-addr: localhost:8848
                 file-extension: yml
-                namespace: 178d958e-9085-4841-8b79-2d77cc33eeca
+                namespace: 70b2c2b4-31fb-4c15-a289-a49218b001b8
 
 

@@ -47,7 +47,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>2.3.7.RELEASE</version>
                 <configuration>
-                    <mainClass>com.purchase.purchasetransactionfescar.PurchaseTransactionFescarApplication</mainClass>
+                    <mainClass>com.purchase.transactionfescar.PurchaseTransactionFescarApplication</mainClass>
                 </configuration>
                 <executions>
                     <execution>
