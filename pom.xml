@@ -13,6 +13,7 @@
         <module>purchase-gateway</module>
         <module>purchase-service-api</module>
         <module>purchase-service</module>
+        <module>purchase-web</module>
     </modules>
 
     <properties>
