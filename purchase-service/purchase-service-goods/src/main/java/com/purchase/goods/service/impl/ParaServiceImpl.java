@@ -3,7 +3,7 @@ package com.purchase.goods.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.purchase.goods.mapper.ParaMapper;
 import com.purchase.goods.service.ParaService;
-import com.purchase.purchaseservicegoodsapi.entity.Para;
+import com.purchase.goods.entity.Para;
 import org.springframework.stereotype.Service;
 
 /**

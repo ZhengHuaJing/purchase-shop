@@ -1,7 +1,7 @@
 package com.purchase.goods.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.purchase.purchaseservicegoodsapi.entity.Album;
+import com.purchase.goods.entity.Album;
 
 /**
  * <p>

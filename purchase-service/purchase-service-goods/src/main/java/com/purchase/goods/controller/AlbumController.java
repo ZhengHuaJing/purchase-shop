@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.purchase.common.pojo.PageResult;
 import com.purchase.common.pojo.Result;
 import com.purchase.goods.service.AlbumService;
-import com.purchase.purchaseservicegoodsapi.entity.Album;
+import com.purchase.goods.entity.Album;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

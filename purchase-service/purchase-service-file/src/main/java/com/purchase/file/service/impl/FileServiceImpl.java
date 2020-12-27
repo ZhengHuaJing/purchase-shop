@@ -2,9 +2,9 @@ package com.purchase.file.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.purchase.file.entity.File;
-import com.purchase.purchaseservicefile.mapper.FileMapper;
-import com.purchase.purchaseservicefile.service.FileService;
-import com.purchase.purchaseservicefile.util.FastDFSUtil;
+import com.purchase.file.mapper.FileMapper;
+import com.purchase.file.service.FileService;
+import com.purchase.file.util.FastDFSUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 

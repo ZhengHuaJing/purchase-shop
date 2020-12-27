@@ -1,7 +1,7 @@
 package com.purchase.goods.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.purchase.purchaseservicegoodsapi.entity.Pref;
+import com.purchase.goods.entity.Pref;
 
 /**
  * <p>

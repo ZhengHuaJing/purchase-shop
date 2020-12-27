@@ -1,9 +1,9 @@
 package com.purchase.goods.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.purchase.goods.entity.UndoLog;
 import com.purchase.goods.mapper.UndoLogMapper;
 import com.purchase.goods.service.UndoLogService;
-import com.purchase.purchaseservicegoodsapi.entity.UndoLog;
 import org.springframework.stereotype.Service;
 
 /**

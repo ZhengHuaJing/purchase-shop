@@ -1,7 +1,7 @@
 package com.purchase.goods.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.purchase.purchaseservicegoodsapi.entity.Spu;
+import com.purchase.goods.entity.Spu;
 
 /**
  * <p>
